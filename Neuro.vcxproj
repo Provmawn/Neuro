@@ -88,14 +88,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2\include;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2\lib\x86;C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2\include;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -114,8 +114,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2\lib\x86;C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,14 +124,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2\include;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2\lib\x86;C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_75_0;C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\include;C:\dev\neuro\Neuro\ExternalLibs\SDL2\include;$(SolutionDir)ExternalLibs\GLM\include;$(SolutionDir)ExternalLibs\GLFW\include;$(SolutionDir)ExternalLibs\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -150,13 +150,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\dev\neuro\Neuro\ExternalLibs\SDL2_mixer-2.0.4\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2_image-2.0.5\lib\x86;C:\dev\neuro\Neuro\ExternalLibs\SDL2\lib\x86;C:\Program Files\boost\boost_1_75_0\libs;$(SolutionDir)ExternalLibs\GLFW\lib-vc2019;$(SolutionDir)ExternalLibs\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ShaderProgram.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\shader.fs" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="src\RuntimeError.h" />
     <ClInclude Include="src\ShaderProgram.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

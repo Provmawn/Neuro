@@ -1,14 +1,25 @@
+#include "RuntimeError.h"
 #include "ShaderProgram.h"
+#include "Window.h"
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <vector>
+#include <memory>
 #include <numbers>
+
+struct GLFWwindowDeleter
+{
+	void operator()(GLFWwindow *window)
+	{
+		glfwDestroyWindow(window);
+	}
+};
 
 GLuint VAO{};
 GLuint VBO{};
@@ -59,55 +70,7 @@ void CreateTriangle()
 
 int main()
 {
-	
-	// initialze glfw
-	if (!glfwInit())
-	{
-		std::cerr << "GFLW Init Failed!\n";
-		return -1;
-	}
-
-	glEnable(GL_DEPTH_TEST);
-
-	// use opengl version 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-
-	// use core profile (not backwards compatible)
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	// create a GLFW window
-	GLFWwindow *window{ glfwCreateWindow(640, 480, "Hello World", NULL, NULL) };
-	if (!window)
-	{
-		std::cerr << "GLFW Window Init Failed!\n";
-		glfwTerminate();
-		return -1;
-	}
-
-
-	// get buffer dimensions
-	int buffer_width{};
-	int buffer_height{};
-	glfwGetFramebufferSize(window, &buffer_width, &buffer_height);
-
-	// set the context to the window
-	glfwMakeContextCurrent(window);
-
-	// allow access to extensions
-	glewExperimental = GL_TRUE;
-
-	// initialize glew
-	if (glewInit() != GLEW_OK)
-	{
-		std::cerr << "GLEW Init Failed\n";
-		glfwDestroyWindow(window);
-		glfwTerminate();
-		return -1;
-	}
-
-	// setup viewport dimensions
-	glViewport(0, 0, buffer_width, buffer_height);
+	Window window{1080, 720, "NEURO Engine"};
 
 	CreateTriangle();
 	ShaderProgram shader_program{ "./src/shaders/shader.vs", "./src/shaders/shader.fs" };
@@ -116,15 +79,15 @@ int main()
 
 	// perspective projection
 	glm::mat4 projection_matrix = glm::mat4{ 1.0f };
-	projection_matrix = glm::perspective(45.0f, static_cast<GLfloat>(buffer_width) / buffer_height, .1f, 100.0f);
+	projection_matrix = glm::perspective(45.0f, window.GetAspectRatio(), .1f, 100.0f);
 
 	int degrees{ 0 };
 	constexpr float to_radians{ std::numbers::pi / 180.0 };
 	// loop while window is open
-	while (!glfwWindowShouldClose(window))
+	while (!window.ShouldClose())
 	{
 		// handle events / user input
-		glfwPollEvents();
+		window.PollEvents();
 
 		glClearColor(.8f, .6f, .8f, 1.0f);
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -152,7 +115,7 @@ int main()
 
 		shader_program.Reset();
 
-		glfwSwapBuffers(window);
+		window.SwapBuffers();
 	}
 	return 0;
 }
