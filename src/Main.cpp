@@ -13,14 +13,6 @@
 #include <memory>
 #include <numbers>
 
-struct GLFWwindowDeleter
-{
-	void operator()(GLFWwindow *window)
-	{
-		glfwDestroyWindow(window);
-	}
-};
-
 GLuint VAO{};
 GLuint VBO{};
 GLuint EBO{};
@@ -70,40 +62,56 @@ void CreateTriangle()
 
 int main()
 {
-	Window window{1080, 720, "NEURO Engine"};
+	// Create Window
+	constexpr int WIDTH{ 1080 };
+	constexpr int HEIGHT{ 720 };
+	constexpr std::string_view TITLE{ "NEURO Engine" };
+	Window window{WIDTH, HEIGHT, TITLE};
 
 	CreateTriangle();
+
+	// Create Shader Program
 	ShaderProgram shader_program{ "./src/shaders/shader.vs", "./src/shaders/shader.fs" };
+
+	// Get Model and Projection matrices from vertex shader
 	GLuint model_uniform{ shader_program.GetUniformLocation("model") };
 	GLuint projection_uniform{ shader_program.GetUniformLocation("projection") };
 
-	// perspective projection
+	// Create Perspective Frustum
 	glm::mat4 projection_matrix = glm::mat4{ 1.0f };
-	projection_matrix = glm::perspective(45.0f, window.GetAspectRatio(), .1f, 100.0f);
+	constexpr float Y_FOV{ 45.0f };
+	constexpr float INNER{ 0.1f };
+	constexpr float OUTTER{ 100.0f };
+	projection_matrix = glm::perspective(Y_FOV, window.GetAspectRatio(), INNER, OUTTER);
 
+	// temporary code used for spinning 3d object
 	int degrees{ 0 };
 	constexpr float to_radians{ std::numbers::pi / 180.0 };
+
 	// loop while window is open
 	while (!window.ShouldClose())
 	{
-		// handle events / user input
 		window.PollEvents();
+		window.Clear();
 
-		glClearColor(.8f, .6f, .8f, 1.0f);
-		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
+		// temporary code used for spinning 3d object
 		degrees += 1.f;
 
 		// view space
 
 		// world space
 		glm::mat4 model_matrix{ 1.0f };
+
+		// temporary code used for spinning 3d object
 		model_matrix = glm::translate(model_matrix, glm::vec3(0.f, 0.f, -5.5f));
 		model_matrix = glm::rotate(model_matrix, degrees * to_radians, glm::vec3(1.0f, 0.0f, 0.0f));
 
 		shader_program.Use();
 
+		// Update Model Matrix in vertex shader
 		glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model_matrix));
+
+		// Update Projection Matrix in vertex shader
 		glUniformMatrix4fv(projection_uniform, 1, GL_FALSE, glm::value_ptr(projection_matrix));
 
 		glBindVertexArray(VAO);

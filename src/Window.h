@@ -3,7 +3,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -17,7 +16,6 @@ private:
 	{
 		void operator()(GLFWwindow *window)
 		{
-			std::cerr << "Destroying Window!\n";
 			glfwDestroyWindow(window);
 		}
 	};
@@ -28,6 +26,7 @@ public:
 	Window(int width, int height, std::string_view title);
 
 	void PollEvents();
+	void Clear();
 	void SwapBuffers();
 
 	std::tuple<int, int> GetDimensions() const;

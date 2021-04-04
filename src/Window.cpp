@@ -52,26 +52,37 @@ Window::Window(int width, int height, std::string_view title)
 	glViewport(0, 0, m_width, m_height);
 }
 
+// Check for events, keyboard, mouse, etc...
 void Window::PollEvents()
 {
 	glfwPollEvents();
 }
 
+void Window::Clear()
+{
+	glClearColor(.8f, .6f, .8f, 1.0f);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+}
+
+// Swap buffers, usually at the end of main loop
 void Window::SwapBuffers()
 {
 	glfwSwapBuffers(m_window.get());
 }
 
+// Used in while loop to constantly check conditions to close window
 bool Window::ShouldClose() const
 {
 	return glfwWindowShouldClose(m_window.get());
 }
 
+// Use structured bindings for this function
 std::tuple<int, int> Window::GetDimensions() const
 {
 	return std::make_tuple(m_width, m_height);
 }
 
+// Calculated aspect ratio, can be used for projection matrix
 float Window::GetAspectRatio() const
 {
 	return m_aspect_ratio;
