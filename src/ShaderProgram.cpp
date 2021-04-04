@@ -44,6 +44,12 @@ void ShaderProgram::Reset() const
 	glUseProgram(0);
 }
 
+GLuint ShaderProgram::GetUniformLocation(std::string_view name)
+{
+	return glGetUniformLocation(m_shader_program, name.data());
+
+}
+
 GLuint ShaderProgram::CompileShader(const std::string &source, GLuint shader_type)
 {
 	GLuint shader{ glCreateShader(shader_type) };
