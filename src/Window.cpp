@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "RuntimeError.h"
 
+#include <glm/glm.hpp>
+
 #include <iostream>
 
 Window::Window(int width, int height, std::string_view title)
@@ -13,8 +15,6 @@ Window::Window(int width, int height, std::string_view title)
 	if (!glfwInit())
 		throw RuntimeError("Window.cpp::Window::Window FAILED to initialize GLFW!\n");
 
-	// enable opengl depth
-	glEnable(GL_DEPTH_TEST);
 
 	// use opengl version 3.3
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -50,13 +50,19 @@ Window::Window(int width, int height, std::string_view title)
 		throw RuntimeError("Window.cpp::Window::Window FAILED to initialize GLEW!\n");
 	}
 
+	// enable opengl depth
+	glEnable(GL_DEPTH_TEST);
+
 	// setup viewport dimensions
 	glViewport(0, 0, m_width, m_height);
 
 	// allows for conversion of GLFW window to our own window handle
 	glfwSetWindowUserPointer(m_window.get(), this);
 
+	// Set a callback for keypresses
 	glfwSetKeyCallback(m_window.get(), Window::KeyCallback);
+	// Set a callback for cursor movement
+	glfwSetCursorPosCallback(m_window.get(), Window::CursorCallback);
 }
 
 // Check for events, keyboard, mouse, etc...
@@ -77,6 +83,33 @@ void Window::SwapBuffers()
 	glfwSwapBuffers(m_window.get());
 }
 
+void Window::SetUniforms(ShaderProgram &shader_program)
+{
+		// get fragment shader's uniforms: resolution, mouse position, and time
+		GLuint resolution_uniform{ shader_program.GetUniformLocation("resolution") };
+		GLuint cursor_uniform{ shader_program.GetUniformLocation("cursor") };
+		GLuint time_uniform{ shader_program.GetUniformLocation("time") };
+
+		// Prepare resolution to be sent to its uniform
+		glm::vec2 resolution{ glm::vec2(m_width, m_height) };
+
+		// Set the resolution uniform
+		shader_program.SetUniformVector2(resolution_uniform, resolution);
+
+		// Prepare the cursor position to be sent to its uniform
+		glm::vec2 cursor{ glm::vec2(m_cursor_x, m_cursor_y) };
+
+		// Prepare the time to be sent to its uniform
+		float time{ static_cast<float>(glfwGetTime()) };
+
+		// Set the cursor position uniform
+		shader_program.SetUniformVector2(cursor_uniform, cursor);
+
+		// Set the time uniform
+		shader_program.SetUniformFloat(time_uniform, time);
+
+}
+
 // Used in while loop to constantly check conditions to close window
 bool Window::ShouldClose() const
 {
@@ -86,7 +119,7 @@ bool Window::ShouldClose() const
 void Window::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
 	// cast the GLFW window into my Window handle
-	Window *window_handle = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+	Window *window_handle{ reinterpret_cast<Window*>(glfwGetWindowUserPointer(window)) };
 
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
@@ -100,6 +133,13 @@ void Window::KeyCallback(GLFWwindow * window, int key, int scancode, int action,
 	}
 }
 
+void Window::CursorCallback(GLFWwindow * window, double xpos, double ypos)
+{
+	Window *window_handle{ reinterpret_cast<Window*>(glfwGetWindowUserPointer(window)) };
+	window_handle->m_cursor_x = xpos;
+	window_handle->m_cursor_y = ypos;
+}
+
 // Use structured bindings for this function
 std::tuple<int, int> Window::GetDimensions() const
 {
@@ -110,4 +150,9 @@ std::tuple<int, int> Window::GetDimensions() const
 float Window::GetAspectRatio() const
 {
 	return m_aspect_ratio;
+}
+
+std::tuple<double, double> Window::GetCursorPosition() const
+{
+	return std::make_tuple(m_cursor_x, m_cursor_y);
 }

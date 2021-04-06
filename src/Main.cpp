@@ -19,10 +19,10 @@ GLuint EBO{};
 
 unsigned int indices[]
 {
-	0, 1, 2, // front face
-	1, 3, 2, // right face
-	2, 0, 3, // left face
-	3, 1, 0, // bottom face
+	2, 0, 1, // front face
+	2, 1, 3, // right face
+	2, 3, 0, // left face
+	0, 3, 1 // bottom face
 };
 
 GLfloat vertices[]{
@@ -86,6 +86,8 @@ int main()
 	GLuint model_uniform{ shader_program.GetUniformLocation("model") };
 	GLuint projection_uniform{ shader_program.GetUniformLocation("projection") };
 
+
+
 	CreateTriangle();
 
 	// Create Perspective Frustum
@@ -105,8 +107,7 @@ int main()
 		window.PollEvents();
 		window.Clear();
 
-		// temporary code used for spinning 3d object
-		degrees += 1.f;
+
 
 		// view space
 
@@ -114,16 +115,28 @@ int main()
 		glm::mat4 model_matrix{ 1.0f };
 
 		// temporary code used for spinning 3d object
+		degrees += 1.f;
 		model_matrix = glm::translate(model_matrix, glm::vec3(0.f, 0.f, -5.5f));
-		model_matrix = glm::rotate(model_matrix, degrees * to_radians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model_matrix = glm::rotate(model_matrix, degrees * to_radians, glm::vec3(1.0f, 1.0f, 0.0f));
+
+		// ###############################
+		// BEGIN SHADER PROGRAM OPERATIONS
+		// ###############################
 
 		shader_program.Use();
+
+		// sets the resolution, cursor position, and time uniforms
+		window.SetUniforms(shader_program);
 
 		// Update Model Matrix in vertex shader
 		shader_program.SetUniformMatrix4(model_uniform, model_matrix);
 
 		// Update Projection Matrix in vertex shader
-		shader_program.SetUniformMatrix4(projection_uniform, projection_matrix);
+		shader_program.SetUniformMatrix4(projection_uniform, projection_matrix); 
+
+		// #############################
+		// END SHADER PROGRAM OPERATIONS
+		// #############################
 
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

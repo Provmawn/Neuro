@@ -51,9 +51,19 @@ GLuint ShaderProgram::GetUniformLocation(std::string_view name)
 
 }
 
-void ShaderProgram::SetUniformMatrix4(GLuint location, glm::mat4 & matrix)
+void ShaderProgram::SetUniformMatrix4(GLuint location, glm::mat4 &matrix)
 {
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void ShaderProgram::SetUniformVector2(GLuint location, glm::vec2 &vector)
+{
+	glUniform2fv(location, 1, glm::value_ptr(vector));
+}
+
+void ShaderProgram::SetUniformFloat(GLuint location, GLfloat value)
+{
+	glUniform1f(location, value);
 }
 
 GLuint ShaderProgram::CompileShader(const std::string &source, GLuint shader_type)

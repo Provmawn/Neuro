@@ -21,6 +21,8 @@ public:
 
 	GLuint GetUniformLocation(std::string_view name);
 	void SetUniformMatrix4(GLuint location, glm::mat4 &matrix);
+	void SetUniformVector2(GLuint location, glm::vec2 &vector);
+	void SetUniformFloat(GLuint location, GLfloat value);
 
 // ################################
 // FIND A BETTER WAY TO SET UNIFORM

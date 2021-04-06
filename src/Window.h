@@ -1,5 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+#include "ShaderProgram.h"
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -30,17 +32,23 @@ public:
 	void Clear();
 	void SwapBuffers();
 
+	void SetUniforms(ShaderProgram &shader_program);
+
 	std::tuple<int, int> GetDimensions() const;
 	float GetAspectRatio() const;
+	std::tuple<double, double> GetCursorPosition() const;
 
 	bool ShouldClose() const;
 
 	static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+	static void CursorCallback(GLFWwindow *window, double xpos, double ypos);
 
 private:
 	int m_width{};
 	int m_height{};
 	float m_aspect_ratio{};
+	double m_cursor_x{};
+	double m_cursor_y{};
 	std::string m_title{};
 	window_ptr m_window{};
 
