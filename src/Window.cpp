@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "RuntimeError.h"
 
+#include <iostream>
+
 Window::Window(int width, int height, std::string_view title)
 	: m_width{ width }
 	, m_height{ height }
@@ -9,7 +11,7 @@ Window::Window(int width, int height, std::string_view title)
 {
 	// initialze glfw
 	if (!glfwInit())
-		throw RuntimeError("Window.cpp::Window::Window GLFW failed to initialize!\n");
+		throw RuntimeError("Window.cpp::Window::Window FAILED to initialize GLFW!\n");
 
 	// enable opengl depth
 	glEnable(GL_DEPTH_TEST);
@@ -27,7 +29,7 @@ Window::Window(int width, int height, std::string_view title)
 	if (!m_window)
 	{
 		glfwTerminate();
-		throw RuntimeError("Window.cpp::Window::Window GLFW failed create a window!\n");
+		throw RuntimeError("Window.cpp::Window::Window FAILED create a GLFWwindow!\n");
 	}
 
 	// get buffer dimensions
@@ -45,11 +47,16 @@ Window::Window(int width, int height, std::string_view title)
 	{
 		m_window.reset();
 		glfwTerminate();
-		throw RuntimeError("Window.cpp::Window::Window GLEW failed to initialize!\n");
+		throw RuntimeError("Window.cpp::Window::Window FAILED to initialize GLEW!\n");
 	}
 
 	// setup viewport dimensions
 	glViewport(0, 0, m_width, m_height);
+
+	// allows for conversion of GLFW window to our own window handle
+	glfwSetWindowUserPointer(m_window.get(), this);
+
+	glfwSetKeyCallback(m_window.get(), Window::KeyCallback);
 }
 
 // Check for events, keyboard, mouse, etc...
@@ -74,6 +81,23 @@ void Window::SwapBuffers()
 bool Window::ShouldClose() const
 {
 	return glfwWindowShouldClose(m_window.get());
+}
+
+void Window::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
+{
+	// cast the GLFW window into my Window handle
+	Window *window_handle = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+
+	if (key >= 0 && key < 1024)
+	{
+		if (action == GLFW_PRESS)
+			window_handle->keys[key] = true;
+		if (action == GLFW_RELEASE)
+			window_handle->keys[key] = false;
+	}
 }
 
 // Use structured bindings for this function

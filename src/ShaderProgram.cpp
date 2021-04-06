@@ -9,8 +9,9 @@
 
 ShaderProgram::ShaderProgram(std::string_view vertex_shader_path, std::string_view fragment_shader_path)
 {
-	GLuint vertex_shader{ CompileShader(GetFileContents(vertex_shader_path.data()), GL_VERTEX_SHADER) };
-	GLuint fragment_shader{ CompileShader(GetFileContents(fragment_shader_path.data()), GL_FRAGMENT_SHADER) };
+
+	GLuint vertex_shader{ CompileShader(GetFileContents(vertex_shader_path), GL_VERTEX_SHADER) };
+	GLuint fragment_shader{ CompileShader(GetFileContents(fragment_shader_path), GL_FRAGMENT_SHADER) };
 
 	m_shader_program = glCreateProgram();
 	glAttachShader(m_shader_program, vertex_shader);
@@ -50,6 +51,11 @@ GLuint ShaderProgram::GetUniformLocation(std::string_view name)
 
 }
 
+void ShaderProgram::SetUniformMatrix4(GLuint location, glm::mat4 & matrix)
+{
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
 GLuint ShaderProgram::CompileShader(const std::string &source, GLuint shader_type)
 {
 	GLuint shader{ glCreateShader(shader_type) };
@@ -66,7 +72,15 @@ GLuint ShaderProgram::CompileShader(const std::string &source, GLuint shader_typ
 		glGetShaderInfoLog(shader, max_len, &max_len, &infolog[0]);
 		glDeleteShader(shader);
 
-		std::cerr << "Failed to compile shader: \n";
+		switch (shader_type)
+		{
+		case GL_VERTEX_SHADER:
+			std::cerr << "FAILED to compile VERTEX SHADER: \n";
+			break;
+		case GL_FRAGMENT_SHADER:
+			std::cerr << "FAILED to compile FRAGMENT SHADER: \n";
+			break;
+		}
 		for (auto element : infolog)
 			std::cerr << element;
 		std::cerr << '\n';
@@ -79,7 +93,7 @@ std::string ShaderProgram::GetFileContents(std::string_view path)
 {
 	std::fstream file{ path.data() };
 	if (!file)
-		std::cerr << "ShaderProgram.cpp::GetFileContents:: Unable to open file: " << path.data() << '\n';
+		std::cerr << "ShaderProgram.cpp::GetFileContents:: FAILED to open file: " << path.data() << '\n';
 	std::stringstream contents{};
 	contents << file.rdbuf();
 	return contents.str();

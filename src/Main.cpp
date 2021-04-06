@@ -62,20 +62,31 @@ void CreateTriangle()
 
 int main()
 {
-	// Create Window
+	// #####################
+	// TODO: SEPARATE THREAD
+	// #####################
+	// Create Window 
 	constexpr int WIDTH{ 1080 };
 	constexpr int HEIGHT{ 720 };
 	constexpr std::string_view TITLE{ "NEURO Engine" };
 	Window window{WIDTH, HEIGHT, TITLE};
 
-	CreateTriangle();
 
+	// #####################
+	// TODO: SEPARATE THREAD
+	// #####################
 	// Create Shader Program
 	ShaderProgram shader_program{ "./src/shaders/shader.vs", "./src/shaders/shader.fs" };
+
+	// ###############
+	// TODO: WAIT HERE
+	// ###############
 
 	// Get Model and Projection matrices from vertex shader
 	GLuint model_uniform{ shader_program.GetUniformLocation("model") };
 	GLuint projection_uniform{ shader_program.GetUniformLocation("projection") };
+
+	CreateTriangle();
 
 	// Create Perspective Frustum
 	glm::mat4 projection_matrix = glm::mat4{ 1.0f };
@@ -109,10 +120,10 @@ int main()
 		shader_program.Use();
 
 		// Update Model Matrix in vertex shader
-		glUniformMatrix4fv(model_uniform, 1, GL_FALSE, glm::value_ptr(model_matrix));
+		shader_program.SetUniformMatrix4(model_uniform, model_matrix);
 
 		// Update Projection Matrix in vertex shader
-		glUniformMatrix4fv(projection_uniform, 1, GL_FALSE, glm::value_ptr(projection_matrix));
+		shader_program.SetUniformMatrix4(projection_uniform, projection_matrix);
 
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

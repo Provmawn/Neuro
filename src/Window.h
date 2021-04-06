@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <array>
 #include <memory>
 #include <string>
 #include <string_view>
@@ -11,7 +12,7 @@
 class Window
 {
 private:
-	// deleter for the GLFWwindow smart pointer
+	// C++ Smart Pointer Deleter for unique_ptr<GLFWwindow>
 	struct GLFWwindowDeleter
 	{
 		void operator()(GLFWwindow *window)
@@ -34,12 +35,16 @@ public:
 
 	bool ShouldClose() const;
 
+	static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+
 private:
 	int m_width{};
 	int m_height{};
 	float m_aspect_ratio{};
 	std::string m_title{};
 	window_ptr m_window{};
+
+	std::array<bool, 1024> keys{};
 };
 
 #endif
