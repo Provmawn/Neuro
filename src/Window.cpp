@@ -83,6 +83,11 @@ void Window::SwapBuffers()
 	glfwSwapBuffers(m_window.get());
 }
 
+const std::array<bool, 1024>& Window::GetKeys() const
+{
+	return m_keys;
+}
+
 void Window::SetUniforms(ShaderProgram &shader_program)
 {
 		// get fragment shader's uniforms: resolution, mouse position, and time
@@ -116,6 +121,17 @@ bool Window::ShouldClose() const
 	return glfwWindowShouldClose(m_window.get());
 }
 
+void Window::UpdateDeltaTime()
+{
+	m_prev_delta_time = m_current_delta_time;
+	m_current_delta_time = glfwGetTime();
+}
+
+double Window::GetDeltaTime() const
+{
+	return m_current_delta_time - m_prev_delta_time;
+}
+
 void Window::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
 	// cast the GLFW window into my Window handle
@@ -127,15 +143,17 @@ void Window::KeyCallback(GLFWwindow * window, int key, int scancode, int action,
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)
-			window_handle->keys[key] = true;
+			window_handle->m_keys[key] = true;
 		if (action == GLFW_RELEASE)
-			window_handle->keys[key] = false;
+			window_handle->m_keys[key] = false;
 	}
 }
 
 void Window::CursorCallback(GLFWwindow * window, double xpos, double ypos)
 {
 	Window *window_handle{ reinterpret_cast<Window*>(glfwGetWindowUserPointer(window)) };
+	window_handle->m_cursor_prev_x = window_handle->m_cursor_x;
+	window_handle->m_cursor_prev_y = window_handle->m_cursor_y;
 	window_handle->m_cursor_x = xpos;
 	window_handle->m_cursor_y = ypos;
 }

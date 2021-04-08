@@ -1,3 +1,4 @@
+#include "Camera3D.h"
 #include "Mesh.h"
 #include "RuntimeError.h"
 #include "ShaderProgram.h"
@@ -14,9 +15,10 @@
 #include <memory>
 #include <numbers>
 #include <utility>
+#include <iostream>
+#include <vector>
 
-
-int main()
+int main(int argc, const char *argv[])
 {
 	// #####################
 	// TODO: SEPARATE THREAD
@@ -60,6 +62,7 @@ int main()
 
 	// Get Model and Projection matrices from vertex shader
 	GLuint model_uniform{ shader_program.GetUniformLocation("model") };
+	GLuint view_uniform{ shader_program.GetUniformLocation("view") };
 	GLuint projection_uniform{ shader_program.GetUniformLocation("projection") };
 
 	// Create Perspective Frustum
@@ -73,16 +76,26 @@ int main()
 	int degrees{ 0 };
 	constexpr float to_radians{ std::numbers::pi / 180.0 };
 
+	Camera3D camera{glm::vec3(0.0f,0.0f,-3.0f), glm::vec3(0.0f, 0.0f, -1.0f), 20.f};
+
+	double current_time{};
+	double prev_time{};
+
 	// loop while window is open
 	while (!window.ShouldClose())
 	{
 		window.PollEvents();
 		window.Clear();
-
-		// view space
+		window.UpdateDeltaTime();
+		std::cout << window.GetDeltaTime() << '\n';
 
 		// world space
 		glm::mat4 model_matrix{ 1.0f };
+
+		camera.HandleKeys(window.GetKeys(), window.GetDeltaTime());
+		// view space
+		glm::mat4 view_matrix{ 1.0f };
+		view_matrix = camera.CalculateViewMatrix();
 
 		// temporary code used for spinning 3d object
 		degrees += 1.f;
@@ -100,6 +113,9 @@ int main()
 
 		// Update Model Matrix in vertex shader
 		shader_program.SetUniformMatrix4(model_uniform, model_matrix);
+
+		// Update View Matrix in vertex shader
+		shader_program.SetUniformMatrix4(view_uniform, view_matrix);
 
 		// Update Projection Matrix in vertex shader
 		shader_program.SetUniformMatrix4(projection_uniform, projection_matrix); 

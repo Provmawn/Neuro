@@ -10,7 +10,7 @@ class Mesh
 {
 public:
 	Mesh(std::vector<unsigned int> indices, std::vector<float> vertices);
-	void Draw();
+	virtual void Draw();
 private:
 	GLuint m_VAO{};
 	GLuint m_EBO{};

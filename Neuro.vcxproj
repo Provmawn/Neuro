@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ShaderProgram.cpp" />
@@ -165,6 +166,7 @@
     <None Include="src\shaders\shader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera3D.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\RuntimeError.h" />
     <ClInclude Include="src\ShaderProgram.h" />
