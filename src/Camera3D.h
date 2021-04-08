@@ -16,7 +16,6 @@ public:
 	glm::mat4 CalculateViewMatrix();
 	void AdjustCameraAngle(double x_cursor_offset, double y_cursor_offset);
 	void HandleKeys(const std::array<bool, 1024> &keys, double delta_time);
-	void HandleMouse();
 private:
 	glm::vec3 m_up{};
 	glm::vec3 m_position{};
@@ -24,6 +23,7 @@ private:
 	float m_pitch{};
 	float m_yaw{};
 	float m_roll{};
-	float m_move_speed;
+	float m_move_speed{};
+	float m_sensitivity{};
 };
 #endif

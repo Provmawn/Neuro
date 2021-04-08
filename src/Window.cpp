@@ -153,7 +153,15 @@ void Window::KeyCallback(GLFWwindow * window, int key, int scancode, int action,
 
 void Window::CursorCallback(GLFWwindow * window, double xpos, double ypos)
 {
+	static bool first_mouse_move{ false };
 	Window *window_handle{ reinterpret_cast<Window*>(glfwGetWindowUserPointer(window)) };
+	if (!first_mouse_move)
+	{
+		first_mouse_move = true;
+		window_handle->m_cursor_x = xpos;
+		window_handle->m_cursor_y = ypos;
+		return;
+	}
 	window_handle->m_cursor_prev_x = window_handle->m_cursor_x;
 	window_handle->m_cursor_prev_y = window_handle->m_cursor_y;
 	window_handle->m_cursor_x = xpos;

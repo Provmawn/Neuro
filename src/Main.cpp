@@ -1,5 +1,6 @@
 #include "Camera3D.h"
 #include "Mesh.h"
+#include "Pyramid.h"
 #include "RuntimeError.h"
 #include "ShaderProgram.h"
 #include "Window.h"
@@ -11,12 +12,13 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include <vector>
 #include <memory>
 #include <numbers>
+#include <random>
 #include <utility>
-#include <iostream>
 #include <vector>
+
+std::vector<std::unique_ptr<Mesh>> meshes{};
 
 int main(int argc, const char *argv[])
 {
@@ -40,25 +42,10 @@ int main(int argc, const char *argv[])
 	// TODO: WAIT HERE
 	// ###############
 
-	std::vector<unsigned int> indices{
-		2, 0, 1, // front face
-		2, 1, 3, // right face
-		2, 3, 0, // left face
-		0, 3, 1 // bottom face
-	};
-
-	std::vector<float> vertices{
-		// bottom left
-		-1.f, -1.f, 0.0f,
-		// bottom right
-		1.f, -1.f, 0.0f,
-		// top middle
-		0.0f, 1.f, 0.0f,
-		// bottom z-axis
-		0.0f, -1.f, -1.f
-	};
-
-	Mesh p{ std::move(indices), std::move(vertices) };
+	std::uniform_real_distribution<float> die(-50.0f, 50.0f);
+	std::mt19937 mersenne{ static_cast<std::mt19937::result_type>(std::time(nullptr)) };
+	for (int i{ 0 }; i < 10000; ++i)
+		meshes.emplace_back(std::make_unique<Pyramid>(glm::vec3(die(mersenne), die(mersenne), die(mersenne))));
 
 	// Get Model and Projection matrices from vertex shader
 	GLuint model_uniform{ shader_program.GetUniformLocation("model") };
@@ -69,7 +56,7 @@ int main(int argc, const char *argv[])
 	glm::mat4 projection_matrix = glm::mat4{ 1.0f };
 	constexpr float Y_FOV{ 45.0f };
 	constexpr float INNER{ 0.1f };
-	constexpr float OUTTER{ 100.0f };
+	constexpr float OUTTER{ 200.0f };
 	projection_matrix = glm::perspective(Y_FOV, window.GetAspectRatio(), INNER, OUTTER);
 
 	// temporary code used for spinning 3d object
@@ -88,9 +75,6 @@ int main(int argc, const char *argv[])
 		window.Clear();
 		window.UpdateDeltaTime();
 
-		// World Space
-		glm::mat4 model_matrix{ 1.0f };
-
 		// Handle Camera Translation
 		camera.HandleKeys(window.GetKeys(), window.GetDeltaTime());
 
@@ -98,15 +82,9 @@ int main(int argc, const char *argv[])
 		auto [x_cursor_offset, y_cursor_offset] { window.GetCursorOffset() };
 		camera.AdjustCameraAngle(x_cursor_offset, y_cursor_offset);
 
-		std::cerr << " FUCK \n";
 		// Setup View Space
 		glm::mat4 view_matrix{ 1.0f };
 		view_matrix = camera.CalculateViewMatrix();
-
-		// temporary code used for spinning 3d object
-		degrees += 1.f;
-		model_matrix = glm::translate(model_matrix, glm::vec3(0.f, 0.f, -5.5f));
-		model_matrix = glm::rotate(model_matrix, degrees * to_radians, glm::vec3(1.0f, 0.0f, 0.0f));
 
 		// ###############################
 		// BEGIN SHADER PROGRAM OPERATIONS
@@ -117,32 +95,28 @@ int main(int argc, const char *argv[])
 		// sets the resolution, cursor position, and time uniforms
 		window.SetUniforms(shader_program);
 
-		// Update Model Matrix in vertex shader
-		shader_program.SetUniformMatrix4(model_uniform, model_matrix);
-
 		// Update View Matrix in vertex shader
 		shader_program.SetUniformMatrix4(view_uniform, view_matrix);
 
 		// Update Projection Matrix in vertex shader
 		shader_program.SetUniformMatrix4(projection_uniform, projection_matrix); 
 
-
 		// ####################
 		// BEGIN DRAWING MESHES
 		// ####################
 
-		p.Draw();
+		for (auto &mesh : meshes)
+		{
+			mesh->Transform();
+			mesh->UpdateTransform(shader_program);
+			mesh->Render();
+		}
 
-		// ##################
-		// END DRAWING MESHES
-		// ##################
-
-		// #############################
-		// END SHADER PROGRAM OPERATIONS
-		// #############################
+		// ####################
+		// RESET SHADER PROGRAM
+		// ####################
 
 		shader_program.Reset();
-
 
 		window.SwapBuffers();
 	}

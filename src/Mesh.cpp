@@ -1,6 +1,7 @@
 #include "Mesh.h"
 
 #include <iostream>
+#include <random>
 #include <utility>
 
 Mesh::Mesh(std::vector<unsigned int> indices, std::vector<float> vertices)
@@ -28,7 +29,19 @@ Mesh::Mesh(std::vector<unsigned int> indices, std::vector<float> vertices)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Mesh::Draw()
+void Mesh::Transform()
+{
+	m_model_matrix = glm::mat4(1.0f);
+}
+
+void Mesh::UpdateTransform(ShaderProgram &shader_program)
+{
+	GLuint model_uniform{ shader_program.GetUniformLocation("model") };
+	shader_program.SetUniformMatrix4(model_uniform, m_model_matrix);
+	m_model_matrix = glm::mat4(1.0f);
+}
+
+void Mesh::Render()
 {
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
@@ -36,3 +49,4 @@ void Mesh::Draw()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+

@@ -42,7 +42,4 @@ void Camera3D::AdjustCameraAngle(double x_cursor_offset, double y_cursor_offset)
 		m_pitch = 89.0f;
 	if (m_pitch < -89.0f)
 		m_pitch = -89.0f;
-	std::cout << "x" <<  x_cursor_offset << '\n';
-	std::cout << "y" << y_cursor_offset << '\n';
 }
-
