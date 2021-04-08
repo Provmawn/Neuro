@@ -38,6 +38,8 @@ Window::Window(int width, int height, std::string_view title)
 	// set the context to the window
 	glfwMakeContextCurrent(m_window.get());
 
+	// hide cursor
+	glfwSetInputMode(m_window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// allow access to extensions
 	glewExperimental = GL_TRUE;
@@ -73,7 +75,7 @@ void Window::PollEvents()
 
 void Window::Clear()
 {
-	glClearColor(.8f, .6f, .8f, 1.0f);
+	glClearColor(.7f, .3f, .5f, 1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 }
 
@@ -156,6 +158,9 @@ void Window::CursorCallback(GLFWwindow * window, double xpos, double ypos)
 	window_handle->m_cursor_prev_y = window_handle->m_cursor_y;
 	window_handle->m_cursor_x = xpos;
 	window_handle->m_cursor_y = ypos;
+	window_handle->m_cursor_offset_x =  xpos - window_handle->m_cursor_prev_x;
+	window_handle->m_cursor_offset_y = window_handle->m_cursor_prev_y - ypos;
+
 }
 
 // Use structured bindings for this function
@@ -173,4 +178,13 @@ float Window::GetAspectRatio() const
 std::tuple<double, double> Window::GetCursorPosition() const
 {
 	return std::make_tuple(m_cursor_x, m_cursor_y);
+}
+
+std::tuple<double, double> Window::GetCursorOffset()
+{
+	auto offset{ std::make_tuple(m_cursor_offset_x, m_cursor_offset_y) };
+	m_cursor_offset_x = 0;
+	m_cursor_offset_y = 0;
+	return offset;
+
 }

@@ -38,6 +38,7 @@ public:
 	std::tuple<int, int> GetDimensions() const;
 	float GetAspectRatio() const;
 	std::tuple<double, double> GetCursorPosition() const;
+	std::tuple<double, double> GetCursorOffset();
 
 	bool ShouldClose() const;
 
@@ -55,6 +56,8 @@ private:
 	double m_cursor_y{};
 	double m_cursor_prev_x{};
 	double m_cursor_prev_y{};
+	double m_cursor_offset_x{};
+	double m_cursor_offset_y{};
 	std::string m_title{};
 	window_ptr m_window{};
 

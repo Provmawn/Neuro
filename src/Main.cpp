@@ -81,19 +81,25 @@ int main(int argc, const char *argv[])
 	double current_time{};
 	double prev_time{};
 
-	// loop while window is open
+	// Loop while the window is open
 	while (!window.ShouldClose())
 	{
 		window.PollEvents();
 		window.Clear();
 		window.UpdateDeltaTime();
-		std::cout << window.GetDeltaTime() << '\n';
 
-		// world space
+		// World Space
 		glm::mat4 model_matrix{ 1.0f };
 
+		// Handle Camera Translation
 		camera.HandleKeys(window.GetKeys(), window.GetDeltaTime());
-		// view space
+
+		// Handle Camera Rotation
+		auto [x_cursor_offset, y_cursor_offset] { window.GetCursorOffset() };
+		camera.AdjustCameraAngle(x_cursor_offset, y_cursor_offset);
+
+		std::cerr << " FUCK \n";
+		// Setup View Space
 		glm::mat4 view_matrix{ 1.0f };
 		view_matrix = camera.CalculateViewMatrix();
 
