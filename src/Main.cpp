@@ -44,7 +44,7 @@ int main(int argc, const char *argv[])
 
 	std::uniform_real_distribution<float> die(-50.0f, 50.0f);
 	std::mt19937 mersenne{ static_cast<std::mt19937::result_type>(std::time(nullptr)) };
-	for (int i{ 0 }; i < 10000; ++i)
+	for (int i{ 0 }; i < 50000; ++i)
 		meshes.emplace_back(std::make_unique<Pyramid>(glm::vec3(die(mersenne), die(mersenne), die(mersenne))));
 
 	// Get Model and Projection matrices from vertex shader
@@ -59,14 +59,12 @@ int main(int argc, const char *argv[])
 	constexpr float OUTTER{ 200.0f };
 	projection_matrix = glm::perspective(Y_FOV, window.GetAspectRatio(), INNER, OUTTER);
 
-	// temporary code used for spinning 3d object
-	int degrees{ 0 };
-	constexpr float to_radians{ std::numbers::pi / 180.0 };
-
-	Camera3D camera{glm::vec3(0.0f,0.0f,-3.0f), glm::vec3(0.0f, 0.0f, -1.0f), 20.f};
-
-	double current_time{};
-	double prev_time{};
+	// Create a 3D Camera
+	constexpr glm::vec3 position{ glm::vec3(0.0f, 0.0f, -3.0f) };
+	constexpr glm::vec3 front{ glm::vec3(0.0f, 0.0f, -1.0f) };
+	constexpr float move_speed{ 20.f };
+	constexpr float sensitvity{ 0.7f };
+	Camera3D camera{ position, front, move_speed, sensitvity };
 
 	// Loop while the window is open
 	while (!window.ShouldClose())
@@ -111,10 +109,6 @@ int main(int argc, const char *argv[])
 			mesh->UpdateTransform(shader_program);
 			mesh->Render();
 		}
-
-		// ####################
-		// RESET SHADER PROGRAM
-		// ####################
 
 		shader_program.Reset();
 
