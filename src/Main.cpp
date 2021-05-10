@@ -20,6 +20,43 @@
 
 std::vector<std::unique_ptr<Mesh>> meshes{};
 
+/*
+void Fractal()
+{
+	static int count = 0;
+	for (int i = 0; i < 120; ++i)
+	{
+		float scale = 15.f;
+		float move = 15.f;
+		float degrees = 45.f;
+
+		// create start branch
+		meshes[i]->ScaleY(scale);
+		meshes[i]->Render(shader_program);
+
+		if (count < 120)
+		{
+			// create left branch
+			meshes[i]->TranslateY(move);
+			meshes[i]->RotateZ(-degrees);
+			meshes[i]->ScaleY(scale);
+			meshes[i]->TranslateY(1.f);
+			meshes[i]->Render(shader_program);
+			Fractal()
+			++count;
+
+			// create right branch
+			meshes[i]->TranslateY(move);
+			meshes[i]->RotateZ(degrees);
+			meshes[i]->ScaleY(scale);
+			meshes[i]->TranslateY(1.f);
+			meshes[i]->Render(shader_program);
+			++count;
+		}
+	}
+}
+*/
+
 int main(int argc, const char *argv[])
 {
 	// #####################
@@ -42,11 +79,6 @@ int main(int argc, const char *argv[])
 	// TODO: WAIT HERE
 	// ###############
 
-	std::uniform_real_distribution<float> die(-50.0f, 50.0f);
-	std::mt19937 mersenne{ static_cast<std::mt19937::result_type>(std::time(nullptr)) };
-	for (int i{ 0 }; i < 50000; ++i)
-		meshes.emplace_back(std::make_unique<Pyramid>(glm::vec3(die(mersenne), die(mersenne), die(mersenne))));
-
 	// Get Model and Projection matrices from vertex shader
 	GLuint model_uniform{ shader_program.GetUniformLocation("model") };
 	GLuint view_uniform{ shader_program.GetUniformLocation("view") };
@@ -65,6 +97,12 @@ int main(int argc, const char *argv[])
 	constexpr float move_speed{ 20.f };
 	constexpr float sensitvity{ 0.7f };
 	Camera3D camera{ position, front, move_speed, sensitvity };
+
+	std::uniform_real_distribution<float> die(-50.0f, 50.0f);
+	std::mt19937 mersenne{ static_cast<std::mt19937::result_type>(std::time(nullptr)) };
+	for (int i{ 0 }; i < 10000; ++i)
+		meshes.emplace_back(std::make_unique<Pyramid>(glm::vec3(die(mersenne), die(mersenne), die(mersenne))));
+
 
 	// Loop while the window is open
 	while (!window.ShouldClose())
@@ -106,8 +144,7 @@ int main(int argc, const char *argv[])
 		for (auto &mesh : meshes)
 		{
 			mesh->Transform();
-			mesh->UpdateTransform(shader_program);
-			mesh->Render();
+			mesh->Render(shader_program);
 		}
 
 		shader_program.Reset();
