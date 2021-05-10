@@ -1,1 +1,1 @@
-![Demonstration](display.png)
+![Demonstration](./display.png)
