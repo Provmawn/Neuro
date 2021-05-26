@@ -33,6 +33,12 @@
     <ClCompile Include="src\Pyramid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Batch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\shader.vs" />
@@ -58,9 +64,18 @@
     <ClInclude Include="src\Pyramid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Batch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="display.PNG">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="src\texture1.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

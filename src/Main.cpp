@@ -1,9 +1,12 @@
+#include "Batch.h"
 #include "Camera3D.h"
 #include "Mesh.h"
 #include "Pyramid.h"
 #include "RuntimeError.h"
 #include "ShaderProgram.h"
 #include "Window.h"
+#include "Texture.h"	// TODO: move this into mesh class
+
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -11,12 +14,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #include <iostream>
 #include <memory>
 #include <numbers>
 #include <random>
 #include <utility>
 #include <vector>
+
 
 std::vector<std::unique_ptr<Mesh>> meshes{};
 
@@ -98,11 +105,15 @@ int main(int argc, const char *argv[])
 	constexpr float sensitvity{ 0.7f };
 	Camera3D camera{ position, front, move_speed, sensitvity };
 
-	std::uniform_real_distribution<float> die(-50.0f, 50.0f);
+	std::uniform_real_distribution<float> die(-25.0f, 25.0f);
 	std::mt19937 mersenne{ static_cast<std::mt19937::result_type>(std::time(nullptr)) };
-	for (int i{ 0 }; i < 10000; ++i)
+	for (int i{ 0 }; i < 1000; ++i)
 		meshes.emplace_back(std::make_unique<Pyramid>(glm::vec3(die(mersenne), die(mersenne), die(mersenne))));
 
+	Texture texture{ "C:\\dev\\neuro\\Neuro\\src\\texture1.png" };
+	texture.Load();
+
+	Batch batch{ std::move(meshes), std::move(texture) };
 
 	// Loop while the window is open
 	while (!window.ShouldClose())
@@ -141,11 +152,7 @@ int main(int argc, const char *argv[])
 		// BEGIN DRAWING MESHES
 		// ####################
 
-		for (auto &mesh : meshes)
-		{
-			mesh->Transform();
-			mesh->Render(shader_program);
-		}
+		batch.Render(shader_program);
 
 		shader_program.Reset();
 

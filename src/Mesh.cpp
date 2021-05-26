@@ -19,9 +19,13 @@ Mesh::Mesh(std::vector<unsigned int> indices, std::vector<float> vertices)
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_vertices.size(), m_vertices.data(), GL_STATIC_DRAW);
 
+	// vertex position
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glEnableVertexAttribArray(0);
+	// texture coordinates
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(vertices[0]) * 3));
+	glEnableVertexAttribArray(1);
+
 
 	// Make sure unbind EBO after VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -104,7 +108,10 @@ void Mesh::UpdateTransform(ShaderProgram &shader_program)
 
 void Mesh::Render(ShaderProgram &shader_program)
 {
+	// Update model matrix
 	UpdateTransform(shader_program);
+
+	// OpenGL rendering
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 	glDrawElements(GL_TRIANGLES, m_indices.size() * 3, GL_UNSIGNED_INT, (void*)0);

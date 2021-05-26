@@ -2,6 +2,7 @@
 #define MESH_H
 
 #include "ShaderProgram.h"
+#include "Texture.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -30,8 +31,8 @@ public:
 	void ScaleX(float factor);
 	void ScaleY(float factor);
 	void ScaleZ(float factor);
-	void UpdateTransform(ShaderProgram &shader_program);
-	void Render(ShaderProgram &shader_program);
+	void UpdateTransform(ShaderProgram& shader_program);
+	void Render(ShaderProgram& shader_program);
 private:
 	GLuint m_VAO{};
 	GLuint m_EBO{};

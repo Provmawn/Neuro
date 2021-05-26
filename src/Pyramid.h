@@ -2,6 +2,7 @@
 #define PYRAMID_H
 
 #include "Mesh.h"
+
 #include <array>
 
 class Pyramid : public Mesh
@@ -15,20 +16,20 @@ private:
 
 	// Shape of mesh
 	static constexpr std::array<unsigned int, 12> s_indices{
-		2, 0, 1, // front face
-		2, 1, 3, // right face
+		0, 3, 1, // front face
+		1, 3, 2, // right face
 		2, 3, 0, // left face
-		0, 3, 1 // bottom face
+		0, 1, 2 // bottom face
 	};
-	static constexpr std::array<float, 12> s_vertices{
+	static constexpr std::array<float, 20> s_vertices{
 		// bottom left
-		-1.f, -1.f, 0.0f,
-		// bottom right
-		1.f, -1.f, 0.0f,
-		// top middle
-		0.0f, 1.f, 0.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
 		// bottom z-axis
-		0.0f, -1.f, -1.f
+		0.0f, -1.0f, 1.0f, 0.5f, 0.0f,
+		// bottom right
+		1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		// top middle
+		0.0f, 1.f, 0.0f, 0.5f, 1.0f,
 	};
 };
 #endif
