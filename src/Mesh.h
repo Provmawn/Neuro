@@ -33,6 +33,7 @@ public:
 	void ScaleZ(float factor);
 	void UpdateTransform(ShaderProgram& shader_program);
 	void Render(ShaderProgram& shader_program);
+	void ComputeAverageNormal(int vertex_length, int normal_offset);
 private:
 	GLuint m_VAO{};
 	GLuint m_EBO{};

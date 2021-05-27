@@ -116,9 +116,12 @@ int main(int argc, const char *argv[])
 
 	Batch batch{ std::move(meshes), std::move(texture) };
 
-	RGBA ambient_color{ 1.0f, 0.0f, 0.0f, 1.0f };
-	float ambient_intensity{.3f};
-	Light directional_light{ std::move(ambient_color), ambient_intensity };
+	RGBA ambient_color{ 1.0f, 1.0f, 1.0f, 1.0f };
+	glm::vec3 light_direction{ 2.0f, -1.0f, 2.0f };
+	float ambient_intensity{ .3f };
+	float diffuse_intensity{ .9f };
+
+	Light directional_light{ std::move(ambient_color), std::move(light_direction), ambient_intensity, diffuse_intensity };
 
 	// Loop while the window is open
 	while (!window.ShouldClose())
