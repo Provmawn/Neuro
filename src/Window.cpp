@@ -92,6 +92,7 @@ const std::array<bool, 1024>& Window::GetKeys() const
 
 void Window::SetUniforms(ShaderProgram &shader_program)
 {
+		// TODO: move this into ShaderProgram class code as variables
 		// get fragment shader's uniforms: resolution, mouse position, and time
 		GLuint resolution_uniform{ shader_program.GetUniformLocation("resolution") };
 		GLuint cursor_uniform{ shader_program.GetUniformLocation("cursor") };

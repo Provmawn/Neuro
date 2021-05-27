@@ -1,11 +1,12 @@
 #include "Batch.h"
 #include "Camera3D.h"
+#include "Light.h"
 #include "Mesh.h"
 #include "Pyramid.h"
 #include "RuntimeError.h"
 #include "ShaderProgram.h"
+#include "Texture.h"	
 #include "Window.h"
-#include "Texture.h"	// TODO: move this into mesh class
 
 
 #include <glm/glm.hpp>
@@ -115,6 +116,10 @@ int main(int argc, const char *argv[])
 
 	Batch batch{ std::move(meshes), std::move(texture) };
 
+	RGBA ambient_color{ 1.0f, 0.0f, 0.0f, 1.0f };
+	float ambient_intensity{.3f};
+	Light directional_light{ std::move(ambient_color), ambient_intensity };
+
 	// Loop while the window is open
 	while (!window.ShouldClose())
 	{
@@ -139,8 +144,11 @@ int main(int argc, const char *argv[])
 
 		shader_program.Use();
 
+		// TODO: move this functionality into the ShaderProgram class since only shaders should contain uniforms
 		// sets the resolution, cursor position, and time uniforms
 		window.SetUniforms(shader_program);
+		// sets the ambient_intensity, and ambient_color
+		directional_light.SetUniforms(shader_program);
 
 		// Update View Matrix in vertex shader
 		shader_program.SetUniformMatrix4(view_uniform, view_matrix);

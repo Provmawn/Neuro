@@ -155,11 +155,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\Batch.cpp" />
     <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Pyramid.cpp" />
+    <ClCompile Include="src\RGBA.cpp" />
     <ClCompile Include="src\ShaderProgram.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -170,10 +172,12 @@
     <None Include="src\shaders\shader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Light.h" />
     <ClInclude Include="src\Batch.h" />
     <ClInclude Include="src\Camera3D.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Pyramid.h" />
+    <ClInclude Include="src\RGBA.h" />
     <ClInclude Include="src\RuntimeError.h" />
     <ClInclude Include="src\ShaderProgram.h" />
     <ClInclude Include="src\Window.h" />

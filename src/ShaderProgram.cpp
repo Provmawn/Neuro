@@ -66,6 +66,11 @@ void ShaderProgram::SetUniformFloat(GLuint location, GLfloat value)
 	glUniform1f(location, value);
 }
 
+void ShaderProgram::SetUniformFloat3(GLuint location, GLfloat v0, GLfloat v1, GLfloat v2)
+{
+	glUniform3f(location, v0, v1, v2);
+}
+
 GLuint ShaderProgram::CompileShader(const std::string &source, GLuint shader_type)
 {
 	GLuint shader{ glCreateShader(shader_type) };

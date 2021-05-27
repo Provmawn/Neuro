@@ -23,6 +23,7 @@ public:
 	void SetUniformMatrix4(GLuint location, glm::mat4 &matrix);
 	void SetUniformVector2(GLuint location, glm::vec2 &vector);
 	void SetUniformFloat(GLuint location, GLfloat value);
+	void SetUniformFloat3(GLuint location, GLfloat v0, GLfloat v1, GLfloat v2);
 
 // ################################
 // FIND A BETTER WAY TO SET UNIFORM
