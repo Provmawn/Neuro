@@ -24,11 +24,11 @@ private:
 	static constexpr std::array<float, 32> s_vertices{
 		// x, y, z, u, v, norm_x, norm_y, norm_z
 		// bottom left
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		-1.0f, -1.0f, -0.6f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		// bottom z-axis
 		0.0f, -1.0f, 1.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
 		// bottom right
-		1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		1.0f, -1.0f, -0.6f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		// top middle
 		0.0f, 1.f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f
 	};

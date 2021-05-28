@@ -45,6 +45,9 @@
     <ClCompile Include="src\RGBA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\shader.vs" />
@@ -82,12 +85,18 @@
     <ClInclude Include="src\RGBA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="display.PNG">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="src\texture1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="display2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

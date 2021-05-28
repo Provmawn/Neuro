@@ -1,6 +1,7 @@
 #include "Batch.h"
 #include "Camera3D.h"
 #include "Light.h"
+#include "Material.h"
 #include "Mesh.h"
 #include "Pyramid.h"
 #include "RuntimeError.h"
@@ -118,10 +119,14 @@ int main(int argc, const char *argv[])
 
 	RGBA ambient_color{ 1.0f, 1.0f, 1.0f, 1.0f };
 	glm::vec3 light_direction{ 2.0f, -1.0f, 2.0f };
-	float ambient_intensity{ .3f };
-	float diffuse_intensity{ .9f };
+	float ambient_intensity{ .2f };
+	float diffuse_intensity{ .6f };
 
 	Light directional_light{ std::move(ambient_color), std::move(light_direction), ambient_intensity, diffuse_intensity };
+
+	constexpr float specular_intensity{ 0.3f };
+	constexpr float shine{ 2.0f };
+	Material shiny_material{ specular_intensity, shine };
 
 	// Loop while the window is open
 	while (!window.ShouldClose())
@@ -150,8 +155,12 @@ int main(int argc, const char *argv[])
 		// TODO: move this functionality into the ShaderProgram class since only shaders should contain uniforms
 		// sets the resolution, cursor position, and time uniforms
 		window.SetUniforms(shader_program);
-		// sets the ambient_intensity, and ambient_color
+		// sets eye_position uniform
+		camera.SetUniforms(shader_program);
+		// sets the ambient_intensity and ambient_color uniforms
 		directional_light.SetUniforms(shader_program);
+		// sets the specular intensity and shine uniforms
+		shiny_material.SetUniforms(shader_program);
 
 		// Update View Matrix in vertex shader
 		shader_program.SetUniformMatrix4(view_uniform, view_matrix);

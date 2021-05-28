@@ -16,7 +16,7 @@ Pyramid::Pyramid(const glm::vec3 &position)
 // this is a transform
 void Pyramid::Transform()
 {
-	++degrees;
+	//++degrees;
 	m_model_matrix = glm::translate(m_model_matrix, m_position);
-	m_model_matrix = glm::rotate(m_model_matrix, glm::radians(degrees), glm::vec3(1.0f, 0.0f, 0.0f));
+	//m_model_matrix = glm::rotate(m_model_matrix, glm::radians(degrees), glm::vec3(1.0f, 0.0f, 0.0f));
 }

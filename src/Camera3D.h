@@ -1,6 +1,8 @@
 #ifndef CAMERA3D_H
 #define CAMERA3D_h
 
+#include "ShaderProgram.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -14,6 +16,7 @@ class Camera3D
 public:
 	Camera3D(glm::vec3 position, glm::vec3 m_camera_front, float move_speed, float sensitivity);
 	glm::mat4 CalculateViewMatrix();
+	void SetUniforms(ShaderProgram& shader_program);
 	void AdjustCameraAngle(double x_cursor_offset, double y_cursor_offset);
 	void HandleKeys(const std::array<bool, 1024> &keys, double delta_time);
 private:

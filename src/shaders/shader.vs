@@ -7,6 +7,7 @@ layout (location = 2) in vec3 normal;
 out vec4 vertex_color;
 out vec2 vertex_tex_coords;
 out vec3 vertex_normal;
+out vec3 vertex_fragment_position;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -19,4 +20,7 @@ void main () {
 
 	vertex_tex_coords = tex_coords;
 	vertex_normal = mat3(transpose(inverse(model))) * normal;
+
+	// Get world coordinates
+	vertex_fragment_position = (model * vec4(pos, 1.0f)).xyz;
 }

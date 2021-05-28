@@ -14,6 +14,13 @@ glm::mat4 Camera3D::CalculateViewMatrix()
 	return glm::lookAt(m_position, m_position + m_camera_front, m_up);
 }
 
+void Camera3D::SetUniforms(ShaderProgram& shader_program)
+{
+	GLuint eye_position{ shader_program.GetUniformLocation("eye_position") };
+
+	shader_program.SetUniformFloat3(eye_position, m_position.x, m_position.y, m_position.z);
+}
+
 void Camera3D::HandleKeys(const std::array<bool, 1024>& keys, double delta_time)
 {
 	if (keys[GLFW_KEY_W])
