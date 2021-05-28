@@ -96,7 +96,7 @@
     <Image Include="src\texture1.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="display2.png">
+    <Image Include="display2.PNG">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
