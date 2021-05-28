@@ -4,4 +4,4 @@
 
 Here is a demonstration of my implementation of Phong Lighting which includes (Ambient, Diffuse, and Specular Lighting)
 
-![Demonstration2](display2.PNG)
+![Demonstration2](display2.png)
