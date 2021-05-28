@@ -2,6 +2,6 @@
 
 ![Demonstration1](display1.PNG)
 
-Here is a demonstration of my implementation of Phong Lighting which includes (Ambient, Diffuse, and Specular Lighting)
+Here is a demonstration of my implementation of Textures and Phong Lighting which includes (Ambient, Diffuse, and Specular Lighting)
 
 ![Demonstration2](display2.png)
