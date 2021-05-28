@@ -90,7 +90,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="display.PNG">
+    <Image Include="display1.PNG">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="src\texture1.png">

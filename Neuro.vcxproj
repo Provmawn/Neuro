@@ -186,7 +186,7 @@
     <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="display.PNG" />
+    <Image Include="display1.PNG" />
     <Image Include="display2.PNG" />
     <Image Include="src\texture1.png" />
   </ItemGroup>
